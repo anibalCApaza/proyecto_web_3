@@ -54,3 +54,5 @@ git pull
 - Toda solicitud de modificación debe ser a través de 'Pull Requests'
 - Todo módulo o funcionalidad debe ir acorde al apartado de requerimientos.
 - Notificar cuando se realize algún Pull Requests para revisarlo, dar observaciones y aprobar el merge.
+
+ESTE ES UN EJEMPLO
