@@ -53,6 +53,4 @@ git pull
 - No tocar la rama **"main"** , debes crear una rama alterna y trabajar en ella todos los cambios que vayas a realizar
 - Toda solicitud de modificación debe ser a través de 'Pull Requests'
 - Todo módulo o funcionalidad debe ir acorde al apartado de requerimientos.
-- Notificar cuando se realize algún Pull Requests para revisarlo, dar observaciones y aprobar el merge.
-
-ESTE ES UN EJEMPLO
+- Notificar por whatsapp cuando terminen una funcionalidad en sus ramas, para revisar las mismas y fusionar sus cambios.
