@@ -1,0 +1,16 @@
+{% extends "usuario/baseLogin.html" %}
+{% load static %}
+{%block content%}
+<h3>Ingresa y mantente al dia con tu equipo</h3>
+<div>
+    <form action="/usuario/inicio_sesion/" method="post">
+        {% csrf_token %}
+        <input type="text" placeholder="Nombre de Usuario" name="usuario">
+        <input type="password" placeholder="Contraseña" name="password">
+        <input type="submit" value="Iniciar Sesion">
+    </form>
+    <div><p>¿No tienes una cuenta? <a href="/usuario/registro/">Registrate</a></p></div>
+    <span style="color:red;">{{error}}</span>
+</div>
+<script src="{% static 'js/inicioSesion.js' %}"></script>
+{%endblock%}

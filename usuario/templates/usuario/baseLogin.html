@@ -1,0 +1,21 @@
+{% load static%}
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Title of the document</title>
+  <link rel="stylesheet" href='{% static "css/estilosBaseLogin.css" %}'>
+</head>
+<body>
+    <div class="contenedor">
+    <div class="contenedor__logo">
+        <img src='{% static "images/Logo.png" %}'>
+    </div>
+    <h1>
+        Bienvenido
+    </h1>
+    {% block content%}
+    
+    {% endblock %}
+    </div>
+</body>
+</html>
