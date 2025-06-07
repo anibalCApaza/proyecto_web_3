@@ -4,6 +4,12 @@ from django.shortcuts import render
 # TODO: Considera que todas las vistas deben usar return render....... para mostrar su información en un template
 
 
+def index(request):
+    return HttpResponse(
+        b"Esta vista retorna el index por defecto de todo el proyecto, que muestra la descripcion del proyecto, el unico accesible para usuarios no logueados"
+    )
+
+
 def lista_proyecto(request):
     return HttpResponse(
         b"Esta vista debe mostrar la lista de proyectos, podria ser en una tabla por ejemplo"
