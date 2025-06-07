@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 
 class Proyecto(models.Model):
     nombre = models.CharField(max_length=100)
-    descripcion = models.TextField(blank=True)
+    descripcion = models.CharField(max_length=255)
     creado_en = models.DateTimeField(auto_now_add=True)
     fecha_ini = models.DateField()
     fecha_fin = models.DateField()
