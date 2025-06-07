@@ -22,7 +22,7 @@ def crear_proyecto(request):
     )
 
 
-def ver_proyecto(request):
+def ver_proyecto(request, id):
     return HttpResponse(
         b"Esta vista debe mostrar la informacion de un proyecto de x id, incluyendo el nombre de propietario, nombre de miembros, listado de tareas y las etiquetas de cada tarea"
     )
