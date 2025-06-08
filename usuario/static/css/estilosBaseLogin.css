@@ -1,0 +1,22 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
+:root{
+    --principal:#022444;
+    --fuentePrincipal:'Poppins', sans-serif;
+}
+*{
+    margin: 0;
+    padding: 0;
+}
+.contenedor__logo{
+    background-color: var(--principal);
+    width: 10vw;
+    height: 20vh;
+}
+.contenedor__logo img{
+    width: 100%;
+    object-fit: contain;
+}
+h1{
+    color: var(--principal);
+    font-family: var(--fuentePrincipal);
+}  

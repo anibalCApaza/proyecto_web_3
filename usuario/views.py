@@ -1,20 +1,56 @@
 from django.http import HttpResponse
-from django.shortcuts import render
-
+from django.shortcuts import render, redirect
+from django.contrib.auth.models import User
+from django.contrib.auth import authenticate, login, logout
 # Considera que todas las views deben mostrar html, por que se tiene que usar return render.........
 
 
+# Vista y plantilla para registrar Usuarios
 def registrarse(request):
-    return HttpResponse(
-        b"Esta vista debe mostrar un formulario de registro en caso de ser una solicitud GET, si es solicitud POST debe validar los datos de registro y crear el usuario en la base de datos(usuario normal. sin privilegios ni ningun rol administrativo), iniciar sesion y mandar a proyecto/index"
-    )
+    if request.method == "POST":
+        User.objects.create_user(
+            username=request.POST["usuario"],
+            email=request.POST["email"],
+            password=request.POST["password1"],
+            first_name=request.POST["nombre"],
+            last_name=request.POST["apellido"],
+        )
+        return redirect("/usuario/registrarse")
+    else:
+        return render(request, "usuario/registroUsuario.html")
 
 
+# Plantilla y vista Inicio sesion
 def iniciar_sesion(request):
-    return HttpResponse(
-        b"Esta vista debe mostrar un formulario de inicio de sesion en caso de ser una solicitud GET, si es solicitud POST debe validar los datos de acceso(username y password), iniciar sesion y mandar a proyecto/index"
-    )
+    if request.method == "POST":
+        usuario = request.POST["usuario"]
+        contrasenia = request.POST["password"]
+        user = authenticate(request, username=usuario, password=contrasenia)
+
+        if user is not None:
+            login(request, user)
+            if request.user.is_authenticated:
+                nombre = request.user.username
+            return render(request, "usuario/mostrarUsuario.html", {"usuario": nombre})
+        else:
+            return render(
+                request,
+                "usuario/inicioSesion.html",
+                {"error": "Usuario o contraseña incorrectos"},
+            )
+    else:
+        return render(request, "usuario/inicioSesion.html", {"error": ""})
+
+
+# Plantilla para mostrar usuario
+def mostrar_usuario(request):
+    if request.user.is_authenticated:
+        nombre = request.user.username
+    else:
+        nombre = ""
+    return render(request, "usuario/mostrarUsuario.html", {"usuario": nombre})
 
 
 def cerrar_sesion(request):
-    return HttpResponse(b"Esta vista debe cerrar la sesion y mandar a proyecto/index")
+    logout(request)
+    return render(request, "usuario/inicioSesion.html", {"error": ""})
