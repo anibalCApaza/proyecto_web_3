@@ -1,0 +1,19 @@
+{% extends "usuario/baseLogin.html" %}
+{% load static %}
+{%block content%}
+<h3>Estamos en Registro</h3>
+<div>
+    <form action="/usuario/registrarse/" method="post">
+        {% csrf_token %}
+        <input type="text" placeholder="Nombre" name="nombre" value="">
+        <input type="text" placeholder="Apellido" name="apellido">
+        <input type="text" placeholder="Nombre de Usuario" name="usuario">
+        <input type="text" placeholder="Introduce tu email" name="email">
+        <input type="password" placeholder="Contraseña (Introduce al menos 8 caracteres)" name="password1">
+        <input type="password" placeholder="Confirmar Contraseña" name="password2">
+        <input type="submit" value="Registrarse">
+    </form>
+    <div><p>Ya tienes una cuenta? <a href="/usuario/iniciar_sesion/">Inicia Sesion</a></p></div>
+</div>
+<script src="{% static 'js/registroUsuario.js' %}"></script>
+{%endblock%}
