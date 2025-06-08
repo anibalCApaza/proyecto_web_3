@@ -1,26 +1,39 @@
-from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
-# Considera que todas las views deben mostrar html, por que se tiene que usar return render.........
+from django.contrib import messages
 
-
-# Vista y plantilla para registrar Usuarios
 def registrarse(request):
     if request.method == "POST":
+        usuario = request.POST["usuario"]
+        email = request.POST["email"]
+        password1 = request.POST["password1"]
+        password2 = request.POST["password2"]
+        nombre = request.POST["nombre"]
+        apellido = request.POST["apellido"]
+
+        if password1 != password2:
+            messages.error(request, "Las contraseñas no coinciden.")
+            return render(request, "usuario/registroUsuario.html")
+        if User.objects.filter(username=usuario).exists():
+            messages.error(request, "El nombre de usuario ya existe.")
+            return render(request, "usuario/registroUsuario.html")
+        if User.objects.filter(email=email).exists():
+            messages.error(request, "El correo ya está registrado.")
+            return render(request, "usuario/registroUsuario.html")
+
         User.objects.create_user(
-            username=request.POST["usuario"],
-            email=request.POST["email"],
-            password=request.POST["password1"],
-            first_name=request.POST["nombre"],
-            last_name=request.POST["apellido"],
+            username=usuario,
+            email=email,
+            password=password1,
+            first_name=nombre,
+            last_name=apellido,
         )
-        return redirect("/usuario/registrarse")
+        messages.success(request, "Registro correcto. Ahora puedes iniciar sesión.")
+        return redirect("usuario:iniciar_sesion")
     else:
         return render(request, "usuario/registroUsuario.html")
 
-
-# Plantilla y vista Inicio sesion
 def iniciar_sesion(request):
     if request.method == "POST":
         usuario = request.POST["usuario"]
@@ -29,20 +42,13 @@ def iniciar_sesion(request):
 
         if user is not None:
             login(request, user)
-            if request.user.is_authenticated:
-                nombre = request.user.username
-            return render(request, "usuario/mostrarUsuario.html", {"usuario": nombre})
+            return redirect("usuario:mostrar_usuario")
         else:
-            return render(
-                request,
-                "usuario/inicioSesion.html",
-                {"error": "Usuario o contraseña incorrectos"},
-            )
+            messages.error(request, "Usuario o contraseña incorrectos.")
+            return render(request, "usuario/inicioSesion.html")
     else:
-        return render(request, "usuario/inicioSesion.html", {"error": ""})
+        return render(request, "usuario/inicioSesion.html")
 
-
-# Plantilla para mostrar usuario
 def mostrar_usuario(request):
     if request.user.is_authenticated:
         nombre = request.user.username
@@ -50,7 +56,7 @@ def mostrar_usuario(request):
         nombre = ""
     return render(request, "usuario/mostrarUsuario.html", {"usuario": nombre})
 
-
 def cerrar_sesion(request):
     logout(request)
-    return render(request, "usuario/inicioSesion.html", {"error": ""})
+    messages.success(request, "Sesión cerrada correctamente.")
+    return redirect("usuario:iniciar_sesion")
