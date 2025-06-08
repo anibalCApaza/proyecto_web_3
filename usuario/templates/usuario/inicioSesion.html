@@ -1,16 +1,43 @@
 {% extends "usuario/baseLogin.html" %}
 {% load static %}
-{%block content%}
-<h3>Ingresa y mantente al dia con tu equipo</h3>
-<div>
-    <form action="/usuario/iniciar_sesion/" method="post">
-        {% csrf_token %}
-        <input type="text" placeholder="Nombre de Usuario" name="usuario">
-        <input type="password" placeholder="Contraseña" name="password">
-        <input type="submit" value="Iniciar Sesion">
-    </form>
-    <div><p>¿No tienes una cuenta? <a href="/usuario/registrarse/">Registrate</a></p></div>
-    <span style="color:red;">{{error}}</span>
+
+{% block title %}Iniciar Sesión{% endblock %} {# Personaliza el título de la página base #}
+
+{% block content %}
+<div class="card shadow-sm">
+    <div class="card-body p-4 p-md-5">
+        <h2 class="card-title text-center mb-4">Ingresa y mantente al día con tu equipo</h2>
+
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }} mt-3">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+
+        <form action="{% url 'usuario:iniciar_sesion' %}" method="post">
+            {% csrf_token %}
+
+            <div class="mb-3">
+                <label for="id_usuario" class="visually-hidden">Nombre de Usuario</label>
+                <input type="text" placeholder="Nombre de Usuario" name="usuario" id="id_usuario" class="form-control form-control-lg" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="id_password" class="visually-hidden">Contraseña</label>
+                <input type="password" placeholder="Contraseña" name="password" id="id_password" class="form-control form-control-lg" required>
+            </div>
+
+            <div class="d-grid">
+                <input type="submit" value="Iniciar Sesión" class="btn btn-primary btn-lg">
+            </div>
+        </form>
+        <div class="mt-4 text-center">
+            <p class="mb-0">¿No tienes una cuenta? <a href="{% url 'usuario:registrarse' %}">Regístrate</a></p>
+
+    </div>
 </div>
-<script src="{% static 'js/inicioSesion.js' %}"></script>
 {%endblock%}
+
+{% block page_scripts %}
+<script src="{% static 'js/inicioSesion.js' %}"></script>
+{% endblock %}
