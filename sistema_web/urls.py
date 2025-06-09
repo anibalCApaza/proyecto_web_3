@@ -17,10 +17,11 @@ Including another URLconf
 # ...existing code...
 from django.urls import path, include
 from django.contrib import admin
-
+from django.shortcuts import redirect
 
 urlpatterns = [
     path("admin/", admin.site.urls),
+    path("", lambda request: redirect("proyecto:index")),
     path("usuario/", include(("usuario.urls", "usuario"), namespace="usuario")),
     path("proyecto/", include("proyecto.urls")),
     path("tarea/", include("tarea.urls")),
