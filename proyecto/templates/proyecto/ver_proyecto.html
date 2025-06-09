@@ -63,13 +63,14 @@
 
             <a href="{% url 'agregar_etiqueta' tarea.id %}"> Agregar Etiqueta</a> <br>
                       {% for etiqueta in etiquetas  %}
-                      {% if etiqueta.tarea.id == tarea.id %}
-                      <div class='badge bg-info badge-info'>
-                        
-                      {{etiqueta.nombre}}{{etiqueta.relevancia}}
-                      </div>
+                        {% if etiqueta.tarea.id == tarea.id %}
+                      
+                          
+                        <div class="badge badge-info {% if etiqueta.relevancia == 'alta'%} bg-danger {%elif etiqueta.relevancia == 'media' %} bg-warning {%else%} bg-info{%endif%}">
+                            {{etiqueta.nombre}}
+                          </div>
 
-                      {% endif %}                      
+                        {% endif %}                      
                       {% endfor %}
                     </div>
                     <p class="mb-1"><b>DESCRIPCIÓN: </b>{{ tarea.descripcion|truncatechars:150 }}</p>
