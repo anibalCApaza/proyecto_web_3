@@ -30,6 +30,38 @@
                     {% endif %}
                 </div>
             </div>
+            <br>
+            {% if user.is_authenticated %}
+            
+            <h3 class="display-6">Tus Tareas Pendientes o Inactivas</h3>
+             <div class="table-responsive">
+        <table class="table table-bordered table-striped align-middle">
+            <thead class="table-dark">
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Descripción</th>
+                    <th>Días transcurridos</th>
+                    <th>Proyecto</th>
+                    <th>Estado</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for tarea in tareas %}
+                    {% if tarea.estado == 'pendiente' or tarea.estado == 'inactiva' %}
+                    <tr>
+                        <td>{{ tarea.id }}</td>
+                        <td>{{ tarea.nombre }}</td>
+                        <td>{{ tarea.descripcion }}</td>
+                        <td>{{ tarea.creado_en|timesince }} atrás</td>
+                        <td>{{ tarea.proyecto.nombre }}</td>
+                        <td>{{ tarea.estado }}</td>
+                    </tr>
+                    {% endif %}
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>            {% endif %}
         </div>
     </div>
 </div>

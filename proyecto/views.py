@@ -10,8 +10,12 @@ from .models import MiembroProyecto, Proyecto
 
 
 def index(request):
+    tareas = {}
+    if request.user.is_authenticated:
+        tareas = Tarea.objects.filter(asignado_a=request.user.id)
     context = {
         "description": "Gestor de tarea en equipo: Organizar proyectos y colabora con tu equipo.",
+        "tareas": tareas,
     }
     return render(request, "proyecto/index.html", context)
 
@@ -84,4 +88,3 @@ def agregar_usuario(request, id):
         pass
     context = {"usuarios": usuarios, "proyecto": proyecto, "error": error}
     return render(request, "proyecto/agregar_usuario.html", context=context)
-
