@@ -98,4 +98,4 @@ def asignar_tarea(request, tarea_id):
 
         tarea.save()
 
-    return redirect("lista_tareas")
+    return redirect("proyecto:ver_proyecto", tarea.proyecto_id)

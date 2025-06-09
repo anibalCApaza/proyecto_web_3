@@ -57,11 +57,31 @@
                             {{ tarea.estado }}
                         </span>
                     </div>
+                    <strong>Asignado a:</strong> {{ tarea.asignado_a }}
+                    <a href="#" onclick="document.getElementById('form-asignar-{{ tarea.id }}').style.display='block'">Asignar/Reasignar</a> <br>
+                    
+ <div id="form-asignar-{{ tarea.id }}" style="display:none; margin-top:10px;">
+                    <form method="post" action="{% url 'asignar_tarea' tarea.id %}">
+                        {% csrf_token %}
+                        <select name="usuario_id">
+                            <option value="">-- Sin asignar --</option>
+                            {% for miembro in tarea.proyecto.miembroproyecto_set.all %}
+                                <option value="{{ miembro.usuario_agregado.id }}">
+                                    {{ miembro.usuario_agregado.username }}
+                                </option>
+                            {% endfor %}
+                        </select>
+                        <button type="submit">Aceptar</button>
+                        <button type="button" onclick="document.getElementById('form-asignar-{{ tarea.id }}').style.display='none'">Cancelar</button>
+                    </form>
+                </div>
 
                     <div>
+              
+            
                       <b>Etiquetas: </b>
 
-            <a href="{% url 'agregar_etiqueta' tarea.id %}"> Agregar Etiqueta</a> <br>
+                    <a href="{% url 'agregar_etiqueta' tarea.id %}"> Agregar Etiqueta</a> <br>
                       {% for etiqueta in etiquetas  %}
                         {% if etiqueta.tarea.id == tarea.id %}
                       
