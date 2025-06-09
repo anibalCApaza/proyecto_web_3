@@ -53,7 +53,17 @@
                             {{ tarea.estado }}
                         </span>
                     </div>
-                    <p class="mb-1">{{ tarea.descripcion|truncatechars:150 }}</p>
+
+                    <div>
+                      <b>Etiquetas: </b>
+                      {% for etiqueta in etiquetas  %}
+                      <div class='badge bg-info badge-info'>
+                        
+                      {{etiqueta.nombre}}{{etiqueta.relevancia}}
+                      </div>
+                      {% endfor %}
+                    </div>
+                    <p class="mb-1"><b>DESCRIPCIÓN: </b>{{ tarea.descripcion|truncatechars:150 }}</p>
                     <small>Asignado a: {{ tarea.asignado_a.username|default:"Sin asignar" }}</small>
                 </div>
             {% endfor %}
