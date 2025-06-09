@@ -1,0 +1,35 @@
+{% extends 'proyecto/base.html' %}
+
+{% block content %}
+<div class="container text-center mt-5">
+    <h1 class="display-4">Gestor de Tareas en Equipo</h1>
+    <p class="lead">{{ description }}</p>
+    
+    <div class="row mt-4">
+        <div class="col-md-6 mx-auto">
+            <div class="card">
+                <div class="card-body">
+                    <h3 class="card-title">¡Colabora con tu equipo!</h3>
+                    <p class="card-text">
+                        Organiza proyectos, asigna tareas y trabaja en equipo de manera eficiente.
+                    </p>
+                    
+                    <!-- Botones para usuarios logueados o no -->
+                    {% if user.is_authenticated %}
+                        <a href="{% url 'lista_proyecto' %}" class="btn btn-primary btn-lg">
+                            Mis Proyectos
+                        </a>
+                    {% else %}
+                        <a href="{% url 'login' %}" class="btn btn-primary btn-lg me-2">
+                            Iniciar Sesión
+                        </a>
+                        <a href="{% url 'registro' %}" class="btn btn-success btn-lg">
+                            Registrarse
+                        </a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,24 @@
+{% extends "tarea/base.html" %}
+
+{% block title %}Tareas del Proyecto{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1>Tareas del Proyecto: {{ proyecto.nombre }}</h1>
+
+    {% if tareas %}
+        {% for tarea in tareas %}
+            <div class="tarea">
+                <h3>{{ tarea.titulo }}</h3>
+                <p><strong>Descripción:</strong> {{ tarea.descripcion }}</p>
+                <p><strong>Estado:</strong> {{ tarea.estado }}</p>
+                <p><strong>Fecha de entrega:</strong> {{ tarea.fecha_entrega }}</p>
+            </div>
+        {% endfor %}
+    {% else %}
+        <p>No hay tareas asignadas a este proyecto.</p>
+    {% endif %}
+
+    <a href="{% url 'lista_proyectos' %}">← Volver a proyectos</a>
+</div>
+{% endblock %}
