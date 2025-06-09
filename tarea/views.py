@@ -21,30 +21,29 @@ def ver_tarea(request, id):
     )
 
 
-@login_required
+@login_required 
 def crear_tarea(request, id_proyecto):
-    project = get_object_or_404(Team, id=project_id)
+    proyecto = get_object_or_404(Proyecto, id=id_proyecto)
 
     if request.method == "POST":
-        form = TaskForm(request.POST)
+        form = Tarea(request.POST)
         if form.is_valid():
-            task = form.save(commit=False)
-            task.project = project
-            task.creator = request.user
-            task.save()
-            return redirect("ver_proyecto", id=project_id)
+            Tarea = form.save(commit=False)
+            Tarea.proyecto = proyecto
+            Tarea.creador_en = request.user
+            Tarea.save()
+            return redirect("ver_proyecto", id=id_proyecto)
     else:
-        form = TaskForm()
+        form = Tarea()
 
     return render(
         request,
-        "tasks/crear_tarea.html",
+        "tarea/crear_tarea.html",
         {
             "form": form,
-            "project": project,
+            "proyecto": proyecto,
         },
     )
-
 
 def crear_etiqueta(request):
     return HttpResponse(

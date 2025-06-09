@@ -1,32 +1,18 @@
-{% extends 'tarea/base.html' %}
+{% extends "base.html" %}
+
+{% block title %}Crear Tarea{% endblock %}
 
 {% block content %}
-<div class="container mt-4">
-    <h2>Crear nueva tarea en <em>{{ project.name }}</em></h2>
-    
-    <form method="post" class="mt-3">
+<div class="container">
+    <h1>Crear nueva tarea para el proyecto: {{ proyecto.nombre }}</h1>
+
+    <form method="post">
         {% csrf_token %}
-        
-        <div class="mb-3">
-            {{ form.title.label_tag }}
-            {{ form.title }}
-            {% if form.title.errors %}
-                <div class="text-danger">{{ form.title.errors }}</div>
-            {% endif %}
-        </div>
+        {{ form.as_p }}
 
-        <div class="mb-3">
-            {{ form.description.label_tag }}
-            {{ form.description }}
-        </div>
-
-        <div class="mb-3">
-            {{ form.status.label_tag }}
-            {{ form.status }}
-        </div>
-
-        <button type="submit" class="btn btn-primary">Guardar Tarea</button>
-        <a href="{% url 'ver_proyecto' project.id %}" class="btn btn-secondary">Cancelar</a>
+        <button type="submit">Guardar tarea</button>
     </form>
+
+    <a href="{% url 'ver_proyecto' proyecto.id %}">← Volver al proyecto</a>
 </div>
 {% endblock %}
