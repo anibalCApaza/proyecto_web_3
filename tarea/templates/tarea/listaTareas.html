@@ -9,6 +9,8 @@
             Descripcion: {{tarea.descripcion }}<br>
             Estado: {{ tarea.estado }}<br>
             Creado el: {{ tarea.creado_en }}<br>
+            asignado a: {{ tarea.asignado_a }}
+            <a href="#" onclick="document.getElementById('form-asignar-{{ tarea.id }}').style.display='block'">[Reasignar]</a> <br>
             <a href="{% url 'agregar_etiqueta' tarea.id %}"> Agregar Etiqueta</a> <br>
             etiqueta: <br>
             <ul>
@@ -23,7 +25,7 @@
             </li>
             </ul>
         
-            <a href="#" onclick="document.getElementById('form-asignar-{{ tarea.id }}').style.display='block'">[Asignar]</a>
+            
             {% else %}
                 Ninguna etiqueta asignada
             {% endif %}
