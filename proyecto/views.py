@@ -1,7 +1,6 @@
-from django.http import HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
-
+from django.contrib.auth.models import User
 from proyecto.forms import ProyectoForm
 from tarea.models import Etiqueta, Tarea
 from .models import MiembroProyecto, Proyecto
@@ -55,3 +54,26 @@ def ver_proyecto(request, id):
         "etiquetas": etiquetas,
     }
     return render(request, "proyecto/ver_proyecto.html", context=context)
+
+def agregar_usuario(request,id):
+    proyecto = get_object_or_404(Proyecto, id=id)
+    usuario_actual=request.user
+    error=''
+    miembros_ids = MiembroProyecto.objects.filter(proyecto=proyecto).values_list('usuario_agregado_id', flat=True)
+    usuarios=User.objects.exclude(id__in=miembros_ids).exclude(id=usuario_actual.id)
+    if request.method=="POST":
+        username_usuario=request.POST['username']
+        nombre_usuario=request.POST['nombre']
+        try:
+            usuario=User.objects.get(username=username_usuario,first_name=nombre_usuario)
+            if usuario.id == usuario_actual.id or usuario.id in miembros_ids:
+                error='No puedes agregar a este usuario'
+            else:
+                MiembroProyecto.objects.create(proyecto=proyecto, usuario_agregado=usuario)
+                return redirect('proyecto:ver_proyecto', id=proyecto.id)
+        except User.DoesNotExist:
+            error='Error usuario no encontrado'
+    else:
+        pass
+    context={"usuarios":usuarios,'proyecto':proyecto,'error':error}
+    return render(request,"proyecto/agregar_usuario.html", context=context)
