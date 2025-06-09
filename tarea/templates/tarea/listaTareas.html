@@ -1,0 +1,51 @@
+{% extends "tarea/baseTarea.html" %}
+{%block content%}
+<h3>Estamos en Lista tareas</h3>
+<ul>
+    {% for tarea in tareas %}
+        <li>  
+            Proyecto: {{ tarea.proyecto.nombre }}<br>
+            Nombre Tarea: {{tarea.nombre }}<br>
+            Descripcion: {{tarea.descripcion }}<br>
+            Estado: {{ tarea.estado }}<br>
+            Creado el: {{ tarea.creado_en }}<br>
+            <a href="{% url 'agregar_etiqueta' tarea.id %}"> Agregar Etiqueta</a> <br>
+            etiqueta: <br>
+            <ul>
+                <li>
+                {% if tarea.etiqueta_set.all %} 
+                {% for etiqueta in tarea.etiqueta_set.all %}
+                    nombre: {{ etiqueta.nombre }}<br> 
+                    Relevancia: {{ etiqueta.relevancia }}<br>
+                    {% if not forloop.last %}, 
+                    {% endif %}
+                {% endfor %}
+            </li>
+            </ul>
+        
+            <a href="#" onclick="document.getElementById('form-asignar-{{ tarea.id }}').style.display='block'">[Asignar]</a>
+            {% else %}
+                Ninguna etiqueta asignada
+            {% endif %}
+            <!-- Formulario oculto (simulando modal) -->
+        <div id="form-asignar-{{ tarea.id }}" style="display:none; margin-top:10px;">
+            <form method="post" action="{% url 'asignar_tarea' tarea.id %}">
+                {% csrf_token %}
+                <select name="usuario_id">
+                    <option value="">-- Sin asignar --</option>
+    {% for miembro in tarea.proyecto.miembroproyecto_set.all %}
+        <option value="{{ miembro.usuario_agregado.id }}">  <!-- Asegúrate que sea .id -->
+            {{ miembro.usuario_agregado.username }}
+        </option>
+    {% endfor %}
+                </select>
+                <button type="submit">Aceptar</button>
+                <button type="button" onclick="document.getElementById('form-asignar-{{ tarea.id }}').style.display='none'">Cancelar</button>
+            </form>
+        </div>
+        
+    </li> 
+        <p></p>  
+    {% endfor %}
+    </ul> 
+{%endblock%}

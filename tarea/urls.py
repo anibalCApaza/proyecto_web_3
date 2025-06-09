@@ -6,4 +6,7 @@ urlpatterns = [
     path("ver_tarea/<int:id>", views.ver_tarea, name="ver_tarea"),
     path("crear_tarea/", views.crear_tarea, name="crear_tarea"),
     path("crear_etiqueta/", views.crear_etiqueta, name="crear_etiqueta"),
+    path('lista_tareas/', views.lista_tareas, name='lista_tareas'),
+    path('agregar_Etiqueta/<int:tarea_id>/', views.agregar_etiqueta, name='agregar_etiqueta'),
+    path('<int:tarea_id>/asignar/', views.asignar_tarea, name='asignar_tarea'),
 ]
