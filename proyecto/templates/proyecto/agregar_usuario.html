@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <form action="{% url 'proyecto:agregar_usuario' proyecto.id %}" method="post">
+        {% csrf_token %}
+        <input type="text" name="username" placeholder="Introduce el usuario">
+        <input type="text" name="nombre" placeholder="Introduce el nombre">
+        <input type="submit" value="Agregar">
+    </form>
+    {% if error %}
+        <div style="color:red;">{{ error }}</div>
+    {% endif %}
+    {% if usuarios %}
+    {% for usuario in usuarios %}
+    <p>
+        Usuario: {{usuario.username}}
+        Nombre: {{usuario.first_name}}
+        Apellidos: {{usuario.last_name}}
+    </p>
+    {% endfor %}
+    {% endif%}
+</body>
+
+</html>
