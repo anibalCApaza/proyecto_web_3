@@ -6,9 +6,6 @@
     <div class="card mb-4">
         <div class="card-header bg-primary text-white">
             <h3 class="mb-0">{{ proyecto.nombre }}</h3>
-            <a href="{% url 'proyecto:agregar_usuario' proyecto.id %}" class="btn btn-success mb-3">
-            <i class="fas fa-plus"></i> Agregar Usuario
-            </a>
         </div>
         <div class="card-body">
             <p class="card-text">
@@ -31,6 +28,10 @@
 
 
     <h4 class="mb-3">Miembros del proyecto</h4>
+      <a href="{% url 'proyecto:agregar_usuario' proyecto.id %}" class="btn btn-warning mb-3">
+        <i class="fas fa-plus"></i> Agregar Usuario
+      </a>
+ 
     {% if miembros %}
     <ul>
       {% for miembro in miembros  %}
