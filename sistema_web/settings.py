@@ -39,7 +39,9 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "proyecto.apps.ProyectoConfig",
     "tarea.apps.TareaConfig",
-    "usuario"
+    "usuario",
+    "proyecto",
+    "tarea",
 ]
 
 
