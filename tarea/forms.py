@@ -9,7 +9,6 @@ class TareaForm(forms.ModelForm):
             "nombre",
             "descripcion",
             "estado",
-            "proyecto",
         ]  # excluimos 'creado_en' porque se asigna automáticamente
 
         widgets = {
@@ -22,7 +21,6 @@ class TareaForm(forms.ModelForm):
             "estado": forms.TextInput(
                 attrs={"class": "form-control", "placeholder": "Estado"}
             ),
-            "proyecto": forms.Select(attrs={"class": "form-control"}),
         }
 
 

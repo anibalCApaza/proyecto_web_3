@@ -13,6 +13,6 @@
         <button type="submit">Guardar tarea</button>
     </form>
 
-    <a href="{% url 'ver_proyecto' proyecto.id %}">← Volver al proyecto</a>
+    <a href="{% url 'proyecto:ver_proyecto' proyecto.id %}">← Volver al proyecto</a>
 </div>
 {% endblock %}

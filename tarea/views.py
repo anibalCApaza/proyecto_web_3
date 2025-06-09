@@ -41,7 +41,7 @@ def crear_tarea(request, id_proyecto):
             Tarea.proyecto = proyecto
             Tarea.creador_en = request.user
             Tarea.save()
-            return redirect("ver_proyecto", id=id_proyecto)
+            return redirect("proyecto:ver_proyecto", id=id_proyecto)
     else:
         form = TareaForm()
 
