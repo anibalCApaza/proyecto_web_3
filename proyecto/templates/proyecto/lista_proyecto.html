@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends 'proyecto/base.html' %}
 
 {% block content %}
 <div class="container mt-4">
@@ -6,16 +6,17 @@
     <a href="{% url 'crear_proyecto' %}" class="btn btn-success mb-3">
         <i class="fas fa-plus"></i> Nuevo Proyecto
     </a>
-
+
     {% if proyectos %}
         <div class="list-group">
             {% for proyecto in proyectos %}
                 <div class="list-group-item list-group-item-action">
                     <div class="d-flex w-100 justify-content-between">
-                        <h5 class="mb-1">{{ proyecto.name }}</h5>
+                        <h5 class="mb-1">{{ proyecto.nombre }}</h5>
+                        <p>{{proyecto.descripcion}}</p>
                         <small>
                             <span class="badge bg-primary">
-                                {{ proyecto.start_date|date:"d/m/Y" }} - {{ proyecto.end_date|date:"d/m/Y" }}
+                                {{ proyecto.fecha_ini|date:"d/m/Y" }} - {{ proyecto.fecha_date|date:"d/m/Y" }}
                             </span>
                         </small>
                     </div>
