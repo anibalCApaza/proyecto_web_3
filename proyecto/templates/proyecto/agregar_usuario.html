@@ -1,31 +1,40 @@
-<!DOCTYPE html>
-<html lang="en">
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
+{% extends 'proyecto/base.html' %}
 
-<body>
-    <form action="{% url 'proyecto:agregar_usuario' proyecto.id %}" method="post">
+{% block content %}
+<br>
+<div class="container mt-5">
+    <h2 class="mb-4">Agregar Usuario</h2>
+
+    <form action="{% url 'proyecto:agregar_usuario' proyecto.id %}" method="post" class="needs-validation" novalidate>
         {% csrf_token %}
-        <input type="text" name="username" placeholder="Introduce el usuario">
-        <input type="text" name="nombre" placeholder="Introduce el nombre">
-        <input type="submit" value="Agregar">
+        <div class="mb-3">
+            <label for="username" class="form-label">Usuario</label>
+            <input type="text" class="form-control" id="username" name="username" placeholder="Introduce el usuario" required>
+        </div>
+        <div class="mb-3">
+            <label for="nombre" class="form-label">Nombre</label>
+            <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Introduce el nombre" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Agregar al proyeto</button>
     </form>
-    {% if error %}
-        <div style="color:red;">{{ error }}</div>
-    {% endif %}
-    {% if usuarios %}
-    {% for usuario in usuarios %}
-    <p>
-        Usuario: {{usuario.username}}
-        Nombre: {{usuario.first_name}}
-        Apellidos: {{usuario.last_name}}
-    </p>
-    {% endfor %}
-    {% endif%}
-</body>
 
-</html>
+    {% if error %}
+        <div class="alert alert-danger mt-3">{{ error }}</div>
+    {% endif %}
+
+    {% if usuarios %}
+        <h4 class="mt-5">Usuarios No Agregados al proyecto</h4>
+        <ul class="list-group mt-3">
+            {% for usuario in usuarios %}
+                <li class="list-group-item">
+                    <strong>Usuario:</strong> {{ usuario.username }}<br>
+                    <strong>Nombre:</strong> {{ usuario.first_name }}<br>
+                    <strong>Apellidos:</strong> {{ usuario.last_name }}
+                </li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+</div>
+{% endblock %}
+
