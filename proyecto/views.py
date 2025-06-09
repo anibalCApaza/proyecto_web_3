@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from proyecto.forms import ProyectoForm
-from tarea.models import Tarea
+from tarea.models import Etiqueta, Tarea
 from .models import MiembroProyecto, Proyecto
 
 
@@ -46,8 +46,13 @@ def ver_proyecto(request, id):
     proyecto = get_object_or_404(Proyecto, id=id)
     tareas = Tarea.objects.filter(proyecto_id=id)
     miembros = MiembroProyecto.objects.filter(proyecto_id=id)
-
-    context = {"proyecto": proyecto, "tareas": tareas, "miembros": miembros}
+    etiquetas = Etiqueta.objects.all()
+    context = {
+        "proyecto": proyecto,
+        "tareas": tareas,
+        "miembros": miembros,
+        "etiquetas": etiquetas,
+    }
     return render(request, "proyecto/ver_proyecto.html", context=context)
 
 def agregar_usuario(request,id):
