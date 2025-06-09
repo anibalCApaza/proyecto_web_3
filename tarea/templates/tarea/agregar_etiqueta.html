@@ -1,9 +1,12 @@
-{% extends "tarea/baseTarea.html" %}
+{% extends "proyecto/base.html" %}
 {% block content %}
-<h1> Agregar Etiqueta a:{{tarea.nombre }} </h1>
+<br>
+<div class="mt-5">
+  <h1> Agregar Etiqueta a:{{tarea.nombre }} </h1>
 <form action="" method="post">
     {% csrf_token %}
     {{form.as_p}}
     <button type="submit">Agregar</button>
 </form>
+</div>
 {% endblock %}
