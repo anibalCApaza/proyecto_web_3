@@ -3,6 +3,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 
 from proyecto.forms import ProyectoForm
+from tarea.models import Tarea
 from .models import Proyecto
 
 
@@ -43,4 +44,8 @@ def crear_proyecto(request):
 
 @login_required
 def ver_proyecto(request, id):
-    pass
+    proyecto = get_object_or_404(Proyecto, id=id)
+    tareas = Tarea.objects.filter(proyecto_id=id)
+
+    context = {"proyecto": proyecto, "tareas": tareas}
+    return render(request, "proyecto/ver_proyecto.html", context=context)
