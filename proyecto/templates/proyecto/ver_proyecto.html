@@ -25,6 +25,20 @@
             </div>
         </div>
     </div>
+
+
+    <h4 class="mb-3">Miembros del proyecto</h4>
+    {% if miembros %}
+    <ul>
+      {% for miembro in miembros  %}
+       <li>
+        <b>USUARIO: </b>{{ miembro.usuario_agregado.username}} <b>NOMBRE: </b>{{ miembro.usuario_agregado.first_name}}  <b>APELLIDOS: </b>{{ miembro.usuario_agregado.last_name}} 
+
+      </li>
+      {% endfor %}
+
+    </ul>
+    {% endif %}
     <h4 class="mb-3">Tareas del proyecto</h4>
     {% if tareas %}
         <div class="list-group">
