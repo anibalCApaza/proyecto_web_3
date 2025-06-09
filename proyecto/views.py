@@ -1,28 +1,52 @@
 from django.http import HttpResponse
-from django.shortcuts import render
+from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib.auth.decorators import login_required
+from .models import Proyecto, Task
+from proyecto.models import Team
+from .forms import TeamCreationForm 
+
 
 # TODO: Considera que todas las vistas deben usar return render....... para mostrar su información en un template
 
 
 def index(request):
-    return HttpResponse(
-        b"Esta vista retorna el index por defecto de todo el proyecto, que muestra la descripcion del proyecto, el unico accesible para usuarios no logueados"
-    )
+    context = {
+        'description': "Gestor de tarea en equipo: Organizar proyectos y colabora con tu equipo.",
+    }
+    return render(request, 'index.html', context)
 
-
+@login_required
 def lista_proyecto(request):
-    return HttpResponse(
-        b"Esta vista debe mostrar la lista de proyectos, podria ser en una tabla por ejemplo"
-    )
+    proyectos = Proyecto.objects.filter(creator=request.user).orden_by('-start_date')
+
+    return render(request, 'proyecto/lista_proyecto.html', {
+        'proyectos': proyectos
+    })
 
 
+@login_required
 def crear_proyecto(request):
-    return HttpResponse(
-        b"Esta vista debe mostrar un formulario si el metodo de acceso es GET, si es POST debe validar los datos de un posible proyecto, registrarlo y mandarnos a lista_proyecto"
-    )
+    if request.method == 'POST':
+        form = TeamCreationForm(request.POST)
+        if form.is_valid():
+            proyecto = form.save(commit=False)
+            proyecto.creator = request.user
+            proyecto.save()
+            return redirect('lista_proyecto')
+    else:
+        form = TeamCreationForm()
+    
+    context = {
+        'form': form,
+    }
+    return render(request, 'proyecto/crear_proyecto.html', context)
 
-
+@login_required
 def ver_proyecto(request, id):
-    return HttpResponse(
-        b"Esta vista debe mostrar la informacion de un proyecto de x id, incluyendo el nombre de propietario, nombre de miembros, listado de tareas y las etiquetas de cada tarea"
-    )
+    proyecto = get_object_or_404(Team, id=id, creator=request.user)
+    tareas = Task.objects.filter(team=proyecto).order_by('-created_at')
+    
+    return render(request, 'proyecto/ver_proyecto.html', {
+        'proyecto': proyecto,
+        'tareas': tareas,
+    })
