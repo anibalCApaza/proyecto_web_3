@@ -73,7 +73,7 @@ def agregar_etiqueta(request, tarea_id):
             )  # no se guarda por que falta adicionar datos
             etiqueta.tarea = tarea
             etiqueta.save()
-            return redirect("/tarea/lista_tareas")
+            return redirect("proyecto:ver_proyecto", tarea.proyecto_id)
     else:
         form = EtiquetaForm()
     return render(
