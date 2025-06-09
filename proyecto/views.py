@@ -4,7 +4,7 @@ from django.contrib.auth.decorators import login_required
 
 from proyecto.forms import ProyectoForm
 from tarea.models import Tarea
-from .models import Proyecto
+from .models import MiembroProyecto, Proyecto
 
 
 # TODO: Considera que todas las vistas deben usar return render....... para mostrar su información en un template
@@ -46,6 +46,7 @@ def crear_proyecto(request):
 def ver_proyecto(request, id):
     proyecto = get_object_or_404(Proyecto, id=id)
     tareas = Tarea.objects.filter(proyecto_id=id)
+    miembros = MiembroProyecto.objects.filter(proyecto_id=id)
 
-    context = {"proyecto": proyecto, "tareas": tareas}
+    context = {"proyecto": proyecto, "tareas": tareas, "miembros": miembros}
     return render(request, "proyecto/ver_proyecto.html", context=context)
