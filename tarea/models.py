@@ -1,3 +1,4 @@
+from django.contrib.auth.models import User
 from django.db import models
 from proyecto.models import Proyecto
 # Create your models here.
@@ -9,6 +10,12 @@ class Tarea(models.Model):
     creado_en = models.DateTimeField(auto_now_add=True)
     estado = models.CharField(max_length=50)
     proyecto = models.ForeignKey(Proyecto, on_delete=models.CASCADE)
+    asignado_a = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        null=True,  # permite valor NULL en la base de datos
+        blank=True,
+    )
 
 
 class Etiqueta(models.Model):
