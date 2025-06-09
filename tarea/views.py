@@ -8,7 +8,7 @@ from tarea.models import Tarea
 
 # Create your views here.
 from .models import Tarea
-from .forms import EtiquetaForm
+from .forms import EtiquetaForm, TareaForm
 from django.contrib.auth.models import User
 
 
@@ -18,6 +18,7 @@ def lista_tareas(request):
     return render(request, "tarea/listaTareas.html", {"tareas": tareas})
 
 
+@login_required
 def ver_tarea(request, id):
     proyecto = get_object_or_404(Proyecto, id=id)
     tareas = Tarea.objects.filter(proyecto=proyecto)
@@ -32,12 +33,12 @@ def ver_tarea(request, id):
     )
 
 
-@login_required 
+@login_required
 def crear_tarea(request, id_proyecto):
     proyecto = get_object_or_404(Proyecto, id=id_proyecto)
 
     if request.method == "POST":
-        form = Tarea(request.POST)
+        form = TareaForm(request.POST)
         if form.is_valid():
             Tarea = form.save(commit=False)
             Tarea.proyecto = proyecto
@@ -45,7 +46,7 @@ def crear_tarea(request, id_proyecto):
             Tarea.save()
             return redirect("ver_proyecto", id=id_proyecto)
     else:
-        form = Tarea()
+        form = TareaForm()
 
     return render(
         request,
@@ -55,6 +56,7 @@ def crear_tarea(request, id_proyecto):
             "proyecto": proyecto,
         },
     )
+
 
 def crear_etiqueta(request):
     return HttpResponse(
@@ -97,4 +99,3 @@ def asignar_tarea(request, tarea_id):
         tarea.save()
 
     return redirect("lista_tareas")
-
