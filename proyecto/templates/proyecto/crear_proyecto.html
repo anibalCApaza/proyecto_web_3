@@ -1,0 +1,45 @@
+{% extends 'proyecto/base.html' %}
+
+{% block content %}
+<br>
+<div class="container mt-4">
+    <h2>Crear Nuevo Proyecto</h2>
+    <form method="post" class="mt-3">
+        {% csrf_token %}
+        
+        <div class="mb-3">
+            {{ form.nombre.label_tag }}
+            {{ form.nombre }}
+            {% if form.nombre.errors %}
+                <div class="text-danger">{{ form.nombre.errors }}</div>
+
+            {% endif %}
+        </div>
+
+        <div class="mb-3">
+            {{ form.descripcion.label_tag }}
+
+            {{ form.descripcion }}
+        </div>
+
+        <div class="row mb-3">
+            <div class="col-md-6">
+                {{ form.fecha_ini.label_tag }}
+
+                {{ form.fecha_ini }}
+
+            </div>
+            <div class="col-md-6">
+                {{ form.fecha_fin.label_tag }}
+                {{ form.fecha_fin }}
+                {% if form.fecha_fin.errors %}
+                    <div class="text-danger">{{ form.fecha_fin.errors }}</div>
+                {% endif %}
+            </div>
+        </div>
+        <br>
+
+        <button type="submit" class="btn btn-primary">Guardar Proyecto</button>
+    </form>
+</div>
+{% endblock %}

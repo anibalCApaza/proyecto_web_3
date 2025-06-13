@@ -1,0 +1,18 @@
+{% extends "tarea/base.html" %}
+
+{% block title %}Crear Tarea{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1>Crear nueva tarea para el proyecto: {{ proyecto.nombre }}</h1>
+
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+
+        <button type="submit">Guardar tarea</button>
+    </form>
+
+    <a href="{% url 'proyecto:ver_proyecto' proyecto.id %}">← Volver al proyecto</a>
+</div>
+{% endblock %}

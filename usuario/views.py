@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 
+
 def registrarse(request):
     if request.method == "POST":
         usuario = request.POST["usuario"]
@@ -34,6 +35,7 @@ def registrarse(request):
     else:
         return render(request, "usuario/registroUsuario.html")
 
+
 def iniciar_sesion(request):
     if request.method == "POST":
         usuario = request.POST["usuario"]
@@ -42,12 +44,13 @@ def iniciar_sesion(request):
 
         if user is not None:
             login(request, user)
-            return redirect("usuario:mostrar_usuario")
+            return redirect("proyecto:index")
         else:
             messages.error(request, "Usuario o contraseña incorrectos.")
             return render(request, "usuario/inicioSesion.html")
     else:
         return render(request, "usuario/inicioSesion.html")
+
 
 def mostrar_usuario(request):
     if request.user.is_authenticated:
@@ -56,7 +59,8 @@ def mostrar_usuario(request):
         nombre = ""
     return render(request, "usuario/mostrarUsuario.html", {"usuario": nombre})
 
+
 def cerrar_sesion(request):
     logout(request)
     messages.success(request, "Sesión cerrada correctamente.")
-    return redirect("usuario:iniciar_sesion")
+    return redirect("proyecto:index")

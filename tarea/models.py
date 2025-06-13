@@ -1,7 +1,7 @@
 from django.contrib.auth.models import User
 from django.db import models
 from proyecto.models import Proyecto
-# Create your models here.
+from django.contrib.auth.models import User
 
 
 class Tarea(models.Model):

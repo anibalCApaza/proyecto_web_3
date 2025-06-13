@@ -39,7 +39,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "proyecto.apps.ProyectoConfig",
     "tarea.apps.TareaConfig",
-    "usuario"
+    "usuario",
 ]
 
 
@@ -119,7 +119,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
 STATIC_URL = "static/"
-#Referencias o archivos estaticos
+# Referencias o archivos estaticos
 STATICFILES_DIRS = [
     BASE_DIR / "usuario/static",
 ]
+
