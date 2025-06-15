@@ -3,16 +3,29 @@ from .models import Proyecto
 
 
 class ProyectoForm(forms.ModelForm):
-    fecha_ini = forms.DateField(
-        label="Fecha inicio",
-        widget=forms.DateInput(attrs={"type": "date"}),
-    )
-    fecha_fin = forms.DateField(
-        label="Fecha fin",
-        widget=forms.DateInput(attrs={"type": "date"}),
-    )
-
     class Meta:
         model = Proyecto
-        fields = ["nombre", "descripcion", "fecha_ini", "fecha_fin"]
-        # Excluimos creado_en y usuario_crea, se auto asignarán
+        fields = [
+            "nombre",
+            "descripcion",
+            "fecha_ini",
+            "fecha_fin",
+        ]  # 'creado_en' se asigna automáticamente
+
+        widgets = {
+            "nombre": forms.TextInput(
+                attrs={"class": "form-control", "placeholder": "Nombre del proyecto"}
+            ),
+            "descripcion": forms.Textarea(
+                attrs={
+                    "class": "form-control",
+                    "placeholder": "Descripción del proyecto",
+                }
+            ),
+            "fecha_ini": forms.DateInput(
+                attrs={"class": "form-control", "type": "date"}
+            ),
+            "fecha_fin": forms.DateInput(
+                attrs={"class": "form-control", "type": "date"}
+            ),
+        }
