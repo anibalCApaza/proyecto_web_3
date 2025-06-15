@@ -73,11 +73,11 @@ def agregar_etiqueta(request, tarea_id):
             )  # no se guarda por que falta adicionar datos
             etiqueta.tarea = tarea
             etiqueta.save()
-            return redirect("proyecto:ver_proyecto", tarea.proyecto_id)
+            return redirect("proyecto:ver_proyecto", id=tarea.proyecto_id)
     else:
         form = EtiquetaForm()
     return render(
-        request, "tarea/agregar_etiqueta.html", {"form": form, "tarea": tarea}
+        request, "tarea/agregar_etiqueta.html", {"form": form, "tarea": tarea, "proyecto": tarea.proyecto}
     )
 
 
@@ -99,3 +99,26 @@ def asignar_tarea(request, tarea_id):
         tarea.save()
 
     return redirect("proyecto:ver_proyecto", tarea.proyecto_id)
+
+
+@login_required
+def editar_tarea(request, tarea_id):
+    tarea = get_object_or_404(Tarea, id=tarea_id)
+    
+    if request.method == "POST":
+        form = TareaForm(request.POST, instance=tarea)
+        if form.is_valid():
+            form.save()
+            return redirect("proyecto:ver_proyecto", tarea.proyecto_id)
+    else:
+        form = TareaForm(instance=tarea)
+
+    return render(
+        request,
+        "tarea/editar_tarea.html",
+        {
+            "form": form,
+            "tarea": tarea,
+            "proyecto": tarea.proyecto,  # Para mantener consistencia con crear_tarea
+        },
+    )

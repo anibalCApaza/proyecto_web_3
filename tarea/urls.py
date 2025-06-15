@@ -9,4 +9,5 @@ urlpatterns = [
     path('lista_tareas/', views.lista_tareas, name='lista_tareas'),
     path('agregar_Etiqueta/<int:tarea_id>/', views.agregar_etiqueta, name='agregar_etiqueta'),
     path('<int:tarea_id>/asignar/', views.asignar_tarea, name='asignar_tarea'),
+    path('editar_tarea/<int:tarea_id>/', views.editar_tarea, name='editar_tarea'),
 ]

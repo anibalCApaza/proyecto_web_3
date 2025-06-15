@@ -3,6 +3,20 @@ from .models import Etiqueta, Tarea
 
 
 class TareaForm(forms.ModelForm):
+    
+    # Definimos las opciones directamente en el formulario
+    ESTADO_OPCIONES = [
+        ('Pendiente', 'Pendiente'),
+        ('En proceso', 'En proceso'),
+        ('Completo', 'Completo'),
+    ]
+    
+    # Sobreescribimos el campo 'estado' en el formulario
+    estado = forms.ChoiceField(
+        choices=ESTADO_OPCIONES,
+        widget=forms.Select(attrs={'class': 'form-select'})
+    )
+    
     class Meta:
         model = Tarea
         fields = [
@@ -18,9 +32,7 @@ class TareaForm(forms.ModelForm):
             "descripcion": forms.Textarea(
                 attrs={"class": "form-control", "placeholder": "Descripción"}
             ),
-            "estado": forms.TextInput(
-                attrs={"class": "form-control", "placeholder": "Estado"}
-            ),
+            # 
         }
 
 

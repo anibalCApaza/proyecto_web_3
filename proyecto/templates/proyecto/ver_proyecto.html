@@ -94,7 +94,15 @@
                       {% endfor %}
                     </div>
                     <p class="mb-1"><b>DESCRIPCIÓN: </b>{{ tarea.descripcion|truncatechars:150 }}</p>
-                    <small>Asignado a: {{ tarea.asignado_a.username|default:"Sin asignar" }}</small>
+                    
+                    <div>
+                        <small>Asignado a: {{ tarea.asignado_a.username|default:"Sin asignar" }}</small>
+                        
+                        <!--Boton  Editar Tarea-->
+                        <a href="{% url 'editar_tarea' tarea.id %} "class="btn text-white float-end"  style="background-color: #022444;"> Editar Tarea </a> <br>
+
+                    </div>
+                    
                 </div>
             {% endfor %}
         </div>
