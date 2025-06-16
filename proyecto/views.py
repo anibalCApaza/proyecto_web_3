@@ -88,3 +88,18 @@ def agregar_usuario(request, id):
         pass
     context = {"usuarios": usuarios, "proyecto": proyecto, "error": error}
     return render(request, "proyecto/agregar_usuario.html", context=context)
+
+
+def editar_proyecto(request, id_proyecto):
+    proyecto = get_object_or_404(Proyecto, id=id_proyecto)
+
+    if request.method == "POST":
+        form = ProyectoForm(request.POST, instance=proyecto)
+        if form.is_valid():
+            form.save()
+            return redirect("proyecto:ver_proyecto", proyecto.id)
+    else:
+        form = ProyectoForm(instance=proyecto)
+    return render(
+        request, "proyecto/editar_proyecto.html", {"form": form, "proyecto": proyecto}
+    )

@@ -1,0 +1,15 @@
+{% extends 'proyecto/base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+
+<br>
+    <h2>Editar Proyecto: {{ proyecto.nombre }}</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn text-white" style="background-color: #022444;">Guardar</button>
+        <a href="{% url 'proyecto:ver_proyecto' proyecto.id %}" class="btn text-white" style="background-color: #022444;">Cancelar</a>
+    </form>
+</div>
+{% endblock %}
