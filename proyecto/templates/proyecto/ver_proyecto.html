@@ -2,113 +2,102 @@
 
 {% block content %}
 <br>
-<div class="container mt-4">
-    <div class="card mb-4">
-        <div class="card-header bg-primary text-white">
-            <h3 class="mb-0">{{ proyecto.nombre }}</h3>
-        </div>
-        <div class="card-body">
-            <p class="card-text">
-              <b>Descripción: </b>
-            {{ proyecto.descripcion }}</p>
-            <div class="row">
-                <div class="col-md-6">
-                    <p><strong>Creado por:</strong> {{ proyecto.usuario_crea.username }}</p>
-                    <p><strong>Fecha de inicio:</strong> {{ proyecto.fecha_ini|date:"d/m/Y" }}</p>
-                </div>
-                <div class="col-md-6">
-                    <p><strong>Estado:</strong> 
-                        <span class="badge bg-success">En progreso</span>
-                    </p>
-                    <p><strong>Fecha de fin:</strong> {{ proyecto.fecha_fin|date:"d/m/Y" }}</p>
+<div class="lista_proyecto">
+    <div class="contenedor_proyecto">
+        <div class="proyecto_info">
+            <div class="proyecto_titulo">
+                <h2>{{ proyecto.nombre }}</h2>
+            </div>
+            <div class="proyecto_descripcion">
+                <p><b>Descripción:</b> {{ proyecto.descripcion }}</p>
+                <div class="proyecto_datos">
+                    <div class="datos_izquierda">
+                        <p><strong>Creado por:</strong> {{ proyecto.usuario_crea.username }}</p>
+                        <p><strong>Fecha de inicio:</strong> {{ proyecto.fecha_ini|date:"d/m/Y" }}</p>
+                    </div>
+                    <div class="datos_derecha">
+                        <p><strong>Estado:</strong> <span class="estado_en_progreso">En progreso</span></p>
+                        <p><strong>Fecha de fin:</strong> {{ proyecto.fecha_fin|date:"d/m/Y" }}</p>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
 
+        <h4 class="titulo_miembros">Miembros del proyecto</h4>
+        <a class="btn_agregar_usuario" href="{% url 'proyecto:agregar_usuario' proyecto.id %}">Agregar Usuario</a>
 
-    <h4 class="mb-3">Miembros del proyecto</h4>
-      <a href="{% url 'proyecto:agregar_usuario' proyecto.id %}" class="btn btn-warning mb-3">
-        <i class="fas fa-plus"></i> Agregar Usuario
-      </a>
- 
-    {% if miembros %}
-    <ul>
-      {% for miembro in miembros  %}
-       <li>
-        <b>USUARIO: </b>{{ miembro.usuario_agregado.username}} <b>NOMBRE: </b>{{ miembro.usuario_agregado.first_name}}  <b>APELLIDOS: </b>{{ miembro.usuario_agregado.last_name}} 
-
-      </li>
-      {% endfor %}
-
-    </ul>
-    {% endif %}
-    <h4 class="mb-3">Tareas del proyecto</h4>
-        <a href="{% url 'crear_tarea' proyecto.id %}" class="btn btn-success mb-3">
-            <i class="fas fa-arrow-left"></i> Crear Tarea
-        </a>
-    {% if tareas %}
-        <div class="list-group">
-            {% for tarea in tareas %}
-                <div class="list-group-item list-group-item-action">
-                    <div class="d-flex w-100 justify-content-between">
-                        <h5 class="mb-1">{{ tarea.nombre }}</h5>
-                        <span class="badge bg-primary"> 
-                            {{ tarea.estado }}
-                        </span>
-                    </div>
-                    <strong>Asignado a:</strong> {{ tarea.asignado_a }}
-                    <a href="#" onclick="document.getElementById('form-asignar-{{ tarea.id }}').style.display='block'">Asignar/Reasignar</a> <br>
-                    
- <div id="form-asignar-{{ tarea.id }}" style="display:none; margin-top:10px;">
-                    <form method="post" action="{% url 'asignar_tarea' tarea.id %}">
-                        {% csrf_token %}
-                        <select name="usuario_id">
-                            <option value="">-- Sin asignar --</option>
-                            {% for miembro in tarea.proyecto.miembroproyecto_set.all %}
-                                <option value="{{ miembro.usuario_agregado.id }}">
-                                    {{ miembro.usuario_agregado.username }}
-                                </option>
-                            {% endfor %}
-                        </select>
-                        <button type="submit">Aceptar</button>
-                        <button type="button" onclick="document.getElementById('form-asignar-{{ tarea.id }}').style.display='none'">Cancelar</button>
-                    </form>
-                </div>
-
-                    <div>
-              
-            
-                      <b>Etiquetas: </b>
-
-                    <a href="{% url 'agregar_etiqueta' tarea.id %}"> Agregar Etiqueta</a> <br>
-                      {% for etiqueta in etiquetas  %}
-                        {% if etiqueta.tarea.id == tarea.id %}
-                      
-                          
-                        <div class="badge badge-info {% if etiqueta.relevancia == 'alta'%} bg-danger {%elif etiqueta.relevancia == 'media' %} bg-warning {%else%} bg-info{%endif%}">
-                            {{etiqueta.nombre}}
-                          </div>
-
-                        {% endif %}                      
-                      {% endfor %}
-                    </div>
-                    <p class="mb-1"><b>DESCRIPCIÓN: </b>{{ tarea.descripcion|truncatechars:150 }}</p>
-                    <small>Asignado a: {{ tarea.asignado_a.username|default:"Sin asignar" }}</small>
-                </div>
+        {% if miembros %}
+        <ul class="lista_miembros">
+            {% for miembro in miembros %}
+            <li class="item_miembro">
+                <b>USUARIO:</b> {{ miembro.usuario_agregado.username }}
+                <b>NOMBRE:</b> {{ miembro.usuario_agregado.first_name }}
+                <b>APELLIDOS:</b> {{ miembro.usuario_agregado.last_name }}
+            </li>
             {% endfor %}
-        </div>
-    {% else %}
-        <div class="alert alert-warning">
-            No hay tareas registradas en este proyecto.
-        </div>
-    {% endif %}
-    <div class="mt-4">
-        <a href="{% url 'proyecto:lista_proyectos' %}" class="btn btn-secondary">
-            <i class="fas fa-arrow-left"></i> Volver a proyectos
-        </a>
-  
-
+        </ul>
+        {% endif %}
     </div>
+
+
+    <a href="{% url 'crear_tarea' proyecto.id %}" class="nav-link boton sombra boton-verde">Crear Tarea</a>
+    <a href="{% url 'proyecto:lista_proyectos' %}" class="nav-link boton sombra boton-morado">Volver a proyectos</a>
+    <h4>Tareas del proyecto</h4>
+
+    {% if tareas %}
+    <div class="tareas">
+        {% for tarea in tareas %}
+        <div class="item_tarea bg-{{ tarea.color }}">
+            <div>
+                <h3>{{ tarea.nombre }}</h3>
+                <span>{{ tarea.estado }}</span>
+            </div>
+            <strong>Asignado a:</strong> {{ tarea.asignado_a }}
+            <a href="#" class="nav-link"
+                onclick="document.getElementById('form-asignar-{{ tarea.id }}').style.display='block'">Asignar/Reasignar</a>
+            <br>
+
+            <div id="form-asignar-{{ tarea.id }}" style="display:none; margin-top:10px;">
+                <form method="post" action="{% url 'asignar_tarea' tarea.id %}">
+                    {% csrf_token %}
+                    <select name="usuario_id">
+                        <option value="">-- Sin asignar --</option>
+                        {% for miembro in tarea.proyecto.miembroproyecto_set.all %}
+                        <option value="{{ miembro.usuario_agregado.id }}">
+                            {{ miembro.usuario_agregado.username }}
+                        </option>
+                        {% endfor %}
+                    </select>
+                    <button type="submit">Aceptar</button>
+                    <button type="button"
+                        onclick="document.getElementById('form-asignar-{{ tarea.id }}').style.display='none'">Cancelar</button>
+                </form>
+            </div>
+
+            <div>
+                <b>Etiquetas: </b>
+                <a href="{% url 'agregar_etiqueta' tarea.id %}" class="nav-link">Agregar Etiqueta</a>
+                <br>
+                {% for etiqueta in etiquetas %}
+                {% if etiqueta.tarea.id == tarea.id %}
+                <div>
+                    {{ etiqueta.nombre }}
+                </div>
+                {% endif %}
+                {% endfor %}
+            </div>
+
+            <p><b>DESCRIPCIÓN: </b>{{ tarea.descripcion|truncatechars:150 }}</p>
+            <small>Asignado a: {{ tarea.asignado_a.username|default:"Sin asignar" }}</small>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div>
+        No hay tareas registradas en este proyecto.
+    </div>
+    {% endif %}
+
+
 </div>
 {% endblock %}

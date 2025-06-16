@@ -1,68 +1,53 @@
 {% extends 'proyecto/base.html' %}
 
 {% block content %}
-<br>
-<div class="container text-center mt-5">
-    <h1 class="display-4">Gestor de Tareas en Equipo</h1>
-    <p class="lead">{{ description }}</p>
-    
-    <div class="row mt-4">
-        <div class="col-md-6 mx-auto">
-            <div class="card">
-                <div class="card-body">
-                    <h3 class="card-title">¡Colabora con tu equipo!</h3>
-                    <p class="card-text">
-                        Organiza proyectos, asigna tareas y trabaja en equipo de manera eficiente.
-                    </p>
-                    
-                    <!-- Botones para usuarios logueados o no -->
-                    {% if user.is_authenticated %}
-                        <a href="{% url 'proyecto:lista_proyectos' %}" class="btn btn-primary btn-lg">
-                            Mis Proyectos
-                        </a>
-                    {% else %}
-                        <a href="{% url 'usuario:iniciar_sesion' %}" class="btn btn-primary btn-lg me-2">
-                            Iniciar Sesión
-                        </a>
-                        <a href="{% url 'usuario:registrarse' %}" class="btn btn-success btn-lg">
-                            Registrarse
-                        </a>
-                    {% endif %}
-                </div>
-            </div>
-            <br>
-            {% if user.is_authenticated %}
-            
-            <h3 class="display-6">Tus Tareas Pendientes o Inactivas</h3>
-             <div class="table-responsive">
-        <table class="table table-bordered table-striped align-middle">
-            <thead class="table-dark">
-                <tr>
-                    <th>ID</th>
-                    <th>Nombre</th>
-                    <th>Descripción</th>
-                    <th>Días transcurridos</th>
-                    <th>Proyecto</th>
-                    <th>Estado</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for tarea in tareas %}
-                    {% if tarea.estado == 'pendiente' or tarea.estado == 'inactiva' %}
-                    <tr>
-                        <td>{{ tarea.id }}</td>
-                        <td>{{ tarea.nombre }}</td>
-                        <td>{{ tarea.descripcion }}</td>
-                        <td>{{ tarea.creado_en|timesince }} atrás</td>
-                        <td>{{ tarea.proyecto.nombre }}</td>
-                        <td>{{ tarea.estado }}</td>
-                    </tr>
-                    {% endif %}
-                {% endfor %}
-            </tbody>
-        </table>
-    </div>            {% endif %}
+
+<div class="presentacion">
+
+    {% if user.is_authenticated %}
+    <h2 class="text-center">Bienvenido de nuevo {{user.username}}
+    </h2>
+    <a href="{% url 'proyecto:lista_proyectos' %}" class="boton boton-azul nav-link">Ir a Mis Proyectos</a>
+    <h2>Tareas Pendientes o Inactivas</h2>
+    <table class="tabla-tareas">
+        <tr>
+            <th>ID</th>
+            <th>Nombre</th>
+            <th>Descripción</th>
+            <th>Días transcurridos</th>
+            <th>Proyecto</th>
+            <th>Estado</th>
+        </tr>
+        {% for tarea in tareas %}
+        {% if tarea.estado == 'pendiente' or tarea.estado == 'inactiva' %}
+        <tr>
+            <td>{{ tarea.id }}</td>
+            <td>{{ tarea.nombre }}</td>
+            <td>{{ tarea.descripcion }}</td>
+            <td>{{ tarea.creado_en|timesince }} atrás</td>
+            <td>{{ tarea.proyecto.nombre }}</td>
+            <td>{{ tarea.estado }}</td>
+        </tr>
+
+        {% endif %}
+        {% endfor %}
+    </table>
+    {% else %}
+    <div class="carta sombra">
+        <h1 class="text-center titulo">Gestor de Tareas en Equipo</h1>
+        <br>
+        <h2>¡Colabora con tu equipo!</h2>
+        <br>
+        <p class="text-center">"Crea proyectos, asigna tareas y haz seguimiento al progreso de tu equipo en tiempo
+            real."
+        </p>
+        <br><br>
+        <div>
+            <a href="{% url 'usuario:iniciar_sesion' %}" class="boton boton-azul nav-link sombra">Iniciar Sesión</a>
+            <a href="{% url 'usuario:registrarse' %}" class="boton boton-verde nav-link">Registrarse</a>
         </div>
     </div>
+
+    {% endif %}
 </div>
 {% endblock %}

@@ -16,6 +16,7 @@ class Tarea(models.Model):
         null=True,  # permite valor NULL en la base de datos
         blank=True,
     )
+    color=models.CharField(max_length=30,default="verde-malanchite");
 
 
 class Etiqueta(models.Model):
