@@ -121,6 +121,8 @@ USE_TZ = True
 STATIC_URL = "static/"
 # Referencias o archivos estaticos
 STATICFILES_DIRS = [
-    BASE_DIR / "usuario/static",
+    BASE_DIR / 'proyecto/static',
+    BASE_DIR / 'usuario/static',
+    BASE_DIR / 'tarea/static',
 ]
 

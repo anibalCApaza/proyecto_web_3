@@ -3,7 +3,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from .models import Tarea
 from .forms import EtiquetaForm, TareaForm
 from django.contrib.auth.models import User
-
+from random import choice
 from proyecto.models import Proyecto
 from django.contrib.auth.decorators import login_required
 
@@ -33,11 +33,12 @@ def ver_tarea(request, id):
 @login_required
 def crear_tarea(request, id_proyecto):
     proyecto = get_object_or_404(Proyecto, id=id_proyecto)
-
+    colores = ["verde-malanchite", "amarillo-auerolin", "texto-azul", "rojo-persa","egg-blue","corn-blue"];
     if request.method == "POST":
         form = TareaForm(request.POST)
         if form.is_valid():
             Tarea = form.save(commit=False)
+            Tarea.color = choice(colores)
             Tarea.proyecto = proyecto
             Tarea.creador_en = request.user
             Tarea.save()
