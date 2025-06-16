@@ -1,49 +1,46 @@
 {% extends "usuario/baseLogin.html" %}
 {% load static %}
+
 {% block title %}Crear una Cuenta{% endblock %}
 
 {% block content %}
-<div class="card shadow-sm">
-    <div class="card-body p-4 p-md-5">
-        <h2 class="card-title text-center mb-4">Crea tu cuenta</h2>
-        {% if messages %}
-            {% for message in messages %}
-                <div class="alert alert-{{ message.tags }} mt-3">{{ message }}</div>
-            {% endfor %}
-        {% endif %}
-        <form action="{% url 'usuario:registrarse' %}" method="post">
-            {% csrf_token %}
-            <div class="mb-3">
-                <label for="id_nombre" class="visually-hidden">Nombre</label>
-                <input type="text" name="nombre" id="id_nombre" class="form-control form-control-lg" placeholder="Nombre" required>
-            </div>
-            <div class="mb-3">
-                <label for="id_apellido" class="visually-hidden">Apellido</label>
-                <input type="text" name="apellido" id="id_apellido" class="form-control form-control-lg" placeholder="Apellido" required>
-            </div>
-            <div class="mb-3">
-                <label for="id_usuario" class="visually-hidden">Nombre de Usuario</label>
-                <input type="text" name="usuario" id="id_usuario" class="form-control form-control-lg" placeholder="Nombre de Usuario" required>
-            </div>
-            <div class="mb-3">
-                <label for="id_email" class="visually-hidden">Correo Electrónico</label>
-                <input type="email" name="email" id="id_email" class="form-control form-control-lg" placeholder="Correo Electrónico" required>
-            </div>
-            <div class="mb-3">
-                <label for="id_password1" class="visually-hidden">Contraseña</label>
-                <input type="password" name="password1" id="id_password1" class="form-control form-control-lg" placeholder="Contraseña" required>
-            </div>
-            <div class="mb-3">
-                <label for="id_password2" class="visually-hidden">Confirmar Contraseña</label>
-                <input type="password" name="password2" id="id_password2" class="form-control form-control-lg" placeholder="Confirmar Contraseña" required>
-            </div>
-            <div class="d-grid">
-                <button type="submit" class="btn btn-primary btn-lg">Registrarse</button>
-            </div>
-        </form>
-        <div class="mt-4 text-center">
-            <p class="mb-0">¿Ya tienes una cuenta? <a href="{% url 'usuario:iniciar_sesion' %}">Inicia sesión</a></p>
-        </div>
+<h2 class="subtitulo">Crea tu cuenta</h2>
+
+<form action="{% url 'usuario:registrarse' %}" method="post" class="formulario_registro">
+    {% csrf_token %}
+
+    <div>
+        <input type="text" name="nombre" id="id_nombre" placeholder="Nombre" required>
     </div>
-</div>
+
+    <div>
+        <input type="text" name="apellido" id="id_apellido" placeholder="Apellido" required>
+    </div>
+
+    <div>
+        <input type="text" name="usuario" id="id_usuario" placeholder="Nombre de Usuario" required>
+    </div>
+
+    <div>
+        <input type="email" name="email" id="id_email" placeholder="Correo Electrónico" required>
+    </div>
+
+    <div>
+        <input type="password" name="password1" id="id_password1" placeholder="Contraseña" required>
+    </div>
+
+    <div>
+        <input type="password" name="password2" id="id_password2" placeholder="Confirmar Contraseña" required>
+    </div>
+
+    <div>
+        <button type="submit" class="boton boton_enviar nav-link">Registrarse</button>
+    </div>
+</form>
+
+<p class="redireccion">¿Ya tienes una cuenta? <a href="{% url 'usuario:iniciar_sesion' %}">Inicia sesión</a></p>
+{% endblock %}
+
+{% block page_scripts %}
+<script src="{% static 'js/inicioSesion.js' %}"></script>
 {% endblock %}

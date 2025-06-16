@@ -1,13 +1,13 @@
-{% extends "tarea/base.html" %}
-{% block content %}
-<br>
-<div class="mt-5">
-  <h1> Agregar Etiqueta a:{{tarea.nombre }} </h1>
-  <form method="post">
-    {% csrf_token %}
-    {{form.as_p}}
+
+{% extends "proyecto/base.html" %} {% block content %}
+<br />
+<div class="lista_proyecto">
+  <h1>Agregar Etiqueta a:{{tarea.nombre }}</h1>
+
+  <br />
+  <form action="" method="post">
+    {% csrf_token %} {{form.as_p}}
     <button type="submit">Agregar</button>
-    <a href="{% url 'proyecto:ver_proyecto' proyecto.id %}" class="btn text-white" style="background-color: #022444;">Cancelar</a>
   </form>
 </div>
 {% endblock %}
